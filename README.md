@@ -1,4 +1,4 @@
-# Authentication_JWT
+# Authentication_JWT_Bearer
 Using JWT to Auth users using the API
 
 This code is a Basic Restful API to explain auth with JWT.
