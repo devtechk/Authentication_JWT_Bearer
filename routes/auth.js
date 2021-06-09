@@ -28,7 +28,7 @@ router.post("/login", async (req, res) => {
       }
     }
 
-    const token = `Bearer ${jwt.sign(payload, config.get("JWT_SECRET"), {expiresIn: "1h"})}`
+    const token = jwt.sign(payload, config.get("JWT_SECRET"), {expiresIn: "1h"})
 
     res.status(200).json({ token });
 

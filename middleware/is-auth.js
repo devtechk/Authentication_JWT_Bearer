@@ -2,7 +2,12 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 
 module.exports = (req, res, next) => {
-    const authHeader = req.header('Authorization');
+    let authHeader = req.header('x-access-token') || req.header('Authorization');
+
+    if (authHeader.startsWith('Bearer ')) {
+        // Remove Bearer from string
+        authHeader = authHeader.slice(7, authHeader.length);
+      }
 
     if( !authHeader ) {
         return res.status(401).json({error: "unauthorized, access denied"});
@@ -11,7 +16,7 @@ module.exports = (req, res, next) => {
     try {
 
       const decodedToken =  jwt.verify(authHeader, config.get("JWT_SECRET"))
-      req.userId = `Bearer ${decodedToken.user._id}`;
+      req.userId = decodedToken.user._id;
 
       next();
 
